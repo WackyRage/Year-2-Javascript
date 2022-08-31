@@ -1,0 +1,30 @@
+* {
+	box-sizing: inherit;
+}
+
+.slide {
+	display:none;
+	width: 100%
+	border-style: none;
+}
+
+.container {
+	max-width: 500px;
+    margin: auto;
+    position: relative;
+    display: block;
+}
+
+img {
+	vertical-align: middle;
+	width: 100%;
+}
+
+.button-left, .button-right {
+	top: 50%;
+	position: absolute;
+}
+
+.button-right {
+    right: 0%;
+}
