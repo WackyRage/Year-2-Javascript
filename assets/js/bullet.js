@@ -1,5 +1,5 @@
 /*
-    class containing the sprite functions for fuel
+    class containing the functions for Bullet
 */
 class Bullet extends Phaser.Physics.Arcade.Image {
     
@@ -8,10 +8,9 @@ class Bullet extends Phaser.Physics.Arcade.Image {
         config.scene.add.existing(this);
         config.scene.physics.add.existing(this);
 
-
-        //  Set some default physics properties
         this.setScale(1);
        
+        // set direction movement
         if(direction === 'left'){
             this.setVelocityX(-300);
         } else if(direction === 'right'){

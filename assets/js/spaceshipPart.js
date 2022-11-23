@@ -1,5 +1,5 @@
 /*
-    class containing the sprite functions for fuel
+    class that shall function as loose spaceship parts
 */
 class SpaceshipPart extends Phaser.Physics.Arcade.Image {
     

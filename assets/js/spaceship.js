@@ -1,5 +1,5 @@
 /*
-    class containing the sprite functions for fuel
+    class containing the sprite functions for the fuel
 */
 class Spaceship extends Phaser.Physics.Arcade.Sprite {
     
@@ -14,6 +14,7 @@ class Spaceship extends Phaser.Physics.Arcade.Sprite {
         this.setBounce(0, 0);
         this.setCollideWorldBounds(true);  
 
+        // Set sprite animations
         this.anims.create({
             key: 'contructLow',
             frames: this.anims.generateFrameNumbers('spaceship', {start: 0, end: 0}),
@@ -46,21 +47,27 @@ class Spaceship extends Phaser.Physics.Arcade.Sprite {
         });
     }
 
+    // Function to set sprite to only having lower part
     constructShipLow(){
         this.anims.play('contructLow', true);
     }
 
-    constructShipTop(){
-        this.anims.play('contructTop', true);
-    }
+    // Function to set sprite to have mid part added
     constructShipMid(){
         this.anims.play('contructMid', true);
     }
 
+    // Function to set sprite as completed
+    constructShipTop(){
+        this.anims.play('contructTop', true);
+    }
+
+    // Function to start enter ship animation
     nextLevel(){
         this.anims.play('enter', true);
     }
 
+    // Function to start ship flying to next level animation
     fly(){
         this.anims.play('flyAway', true);
         this.setCollideWorldBounds(false); 

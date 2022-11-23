@@ -1,5 +1,5 @@
 /*
-    class containing the sprite functions for fuel
+    class containing the functions for mobs
 */
 class Mob extends Phaser.Physics.Arcade.Image {
     
@@ -12,13 +12,13 @@ class Mob extends Phaser.Physics.Arcade.Image {
         var movementDirection;
         this.timer = Phaser.Time.Clock;
 
-        //  Set some default physics properties
+        // Set default physics properties
         this.setScale(1);
         this.setBounce(1, 1);
     }
 
+    // function that decides movement patterns based on level
     movement(level){
-        console.log("in movement");
         if(level == 1){
             this.comet();
         } else if (level == 2) {
@@ -28,11 +28,13 @@ class Mob extends Phaser.Physics.Arcade.Image {
         }
     }
 
+    // movement pattern for comets
     comet() {
         this.setVelocityX(-160);
         this.setVelocityY((Math.floor(Math.random() * 6 - 1)* 10));
     }
 
+    // movement pattern for aliens
     alien() {
         var direction = (Math.floor(Math.random() * 4));
         if(direction == 1){
@@ -50,6 +52,7 @@ class Mob extends Phaser.Physics.Arcade.Image {
         } 
     }
 
+    // movement pattern for bolloons
     bolloon() {
         console.log("bolloon " + this.movementdirection);
         if(this.movementdirection == null) {

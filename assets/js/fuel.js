@@ -1,5 +1,5 @@
 /*
-    class containing the sprite functions for fuel
+    class containing the functions for fuel
 */
 class Fuel extends Phaser.Physics.Arcade.Image {
     
@@ -15,6 +15,7 @@ class Fuel extends Phaser.Physics.Arcade.Image {
         this.setCollideWorldBounds(true);  
     }
 
+    // custom gravity for fuel
     gravity(){
         this.setVelocityY(150);
     }

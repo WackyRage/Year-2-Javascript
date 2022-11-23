@@ -1,5 +1,5 @@
 /*
-    class containing the sprite functions for player
+    class containing the sprite functions for the spaceman
 */
 class Spaceman extends Phaser.Physics.Arcade.Sprite {
     
@@ -14,6 +14,7 @@ class Spaceman extends Phaser.Physics.Arcade.Sprite {
         this.setBounce(0, 0);
         // this.setCollideWorldBounds(true);   
 
+        // Set sprite animations
         this.anims.create({
             key: 'left',
             frames: this.anims.generateFrameNumbers('spaceman', {start: 0, end: 3}),
@@ -55,44 +56,52 @@ class Spaceman extends Phaser.Physics.Arcade.Sprite {
         }); 
     }
 
+    // custom gravity for fuel
     gravity(){
         this.setVelocityY(150);
     }
 
+    // Function to allow movement with walking left animation
     walkLeft(){
         this.setVelocityX(-100);
 
         this.anims.play('left', true);
     }
 
+    // Function to allow movement with walking right animation
     walkRight(){
         this.setVelocityX(100);
 
         this.anims.play('right', true);
     }
 
+    // Function to stop movement and set sprite to stationary
     stationary(){
         this.setVelocityX(0);
 
         this.anims.play('turn', true);
     }
 
+    // Function to allow movement with fly left animation
     flyLeft(){
         this.setVelocityX(-200);
 
         this.anims.play('fly-left', true);
     }
 
+    // Function to allow movement with fly right animation
     flyRight(){
         this.setVelocityX(200);
 
         this.anims.play('fly-right', true);
     }
 
+    // Function to allow avatar to fly while using directions
     fly(){
         this.setVelocityY(-200);
     }
 
+    // Function to allow avatar to fly while using no directions
     flyStationary(){
         this.setVelocityX(0);
 

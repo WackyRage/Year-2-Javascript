@@ -10,13 +10,13 @@ var config = {
     physics: {
         default: "arcade",
         arcade: {
-            gravity: { y: 0 },
+            gravity: { y: 0 }, // gravity set to 0 to allow mobs to move without
             debug: false
         } 
     }
 }
+
 /*
     Making of the game object and setting in the configurations using config
 */
-
 var game = new Phaser.Game(config, this);

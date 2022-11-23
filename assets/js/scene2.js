@@ -1,5 +1,5 @@
 /*
-  Scene contains processes for game allowing it to run 
+   Scene contains processes for game allowing it to run 
    trough three function to load in the needed assets for the 
    game, to create objects and to constantly update te game.
 */
@@ -8,6 +8,7 @@ class Scene2 extends Phaser.Scene {
     constructor() {
         super("playGame");
 
+        /* set up of class variables */
         var platforms;
         var cursors;
         var spaceman;
@@ -15,17 +16,19 @@ class Scene2 extends Phaser.Scene {
         var spaceship;
         var spaceshipMid;
 
+        /* set up of class collection variables */
         var mob;
         var mobGroup;
         var bullet;
         var bulletGroup;
 
-        var timer;
-
+        /* set up of string variable*/
         var scoreText;
         var lifeText;
         var fuelText;
 
+        /* set up of INT variable*/
+        var timer;
         var levelPhase;
         this.levelPhase = 0;
         var score;
@@ -106,6 +109,7 @@ class Scene2 extends Phaser.Scene {
     }
 
     update() {
+        // add controlls for player avatar
         if(this.cursors.left.isDown){
             if(this.spaceman.body.touching.down){
                 this.spaceman.walkLeft();
@@ -138,27 +142,31 @@ class Scene2 extends Phaser.Scene {
             }
         }
 
+        // add custom gravity for player
         if(this.cursors.up.isDown){
             this.spaceman.fly();
         } else {
             this.spaceman.gravity();
         }
 
+        // start function that allows mob to move
         this.mobMovement();
+
+        // start function to add custom gravity for fuel
         this.fuel.gravity();
+
+        // allow objects to circle the screenborder
         this.physics.world.wrap(this.spaceman, 32);
         this.physics.world.wrap(this.mobGroup, 32);
         this.physics.world.wrap(this.bulletGroup, 32);    
     }
 
+    // function that detemines movement patterns for mobs
     mobMovement(){
-        console.log("mobMovement");
         var timer = this.time.now;
         if(this.level == 1 || this.level == 3){
             if(timer >= this.lastMovement) {
-                console.log("mobMovement IF");
                 for (var i = 0; i < this.mobGroup.getLength(); i++) {
-                    console.log("mobMovement FOR");
                     var child = this.mobGroup.getChildren().find(v => v.name == i);
                     child.movement(this.level);
                 this.lastMovement = timer + 400;
@@ -167,8 +175,7 @@ class Scene2 extends Phaser.Scene {
         }
     }
 
-    
-
+    // function that allows player to collect fuel and add total to collected
     collectfuel (spaceman, fuel) {
         this.fuel.disableBody(true, true);
 
@@ -211,6 +218,7 @@ class Scene2 extends Phaser.Scene {
         }
     }
 
+    // function that is part of next level animation
     enterSpaceship(spaceman, spaceship) {
         if(this.levelPhase === 3) {
             this.spaceman.disableBody(true, true);
@@ -222,12 +230,14 @@ class Scene2 extends Phaser.Scene {
         }
     }
 
+    // function that is part of next level animation
     spaceshipFly(){
         this.spaceship.fly();
         this.timer = this.time.addEvent({ delay: 2000, callback: this.spaceshipReset, callbackScope: this });
         this.timer = this.time.addEvent({ delay: 3000, callback: this.setNewStage, callbackScope: this });
     }
 
+    // Empties scene of old movable object and sets up scene for next level
     setNewStage(){
         this.spaceman.enableBody(true, 100, 545, true, true);
         this.spaceship.setCollideWorldBounds(true);
@@ -238,39 +248,45 @@ class Scene2 extends Phaser.Scene {
         this.fuelInt = 0;
         this.fuelText.setText('fuel: ' + this.fuelInt + '%');
 
-        if(this.level == 5) {
+        // reset level if level reached 3
+        if(this.level == 3) {
             this.level = 1;
+            // reset spaceship
             this.levelPhase = 0; 
             this.spaceship.constructShipLow();
             this.spaceshipMid.enableBody(true, 400, 310, true, true);
             this.spaceshipTop.enableBody(true, 150, 166, true, true);
         } else {
-            this.levelPhase = 2; 
             this.level += 1;
+            // set spaceship to constructed without fuel
+            this.levelPhase = 2; 
             this.fuel.enableBody(true, Math.floor(Math.random() * 800), 0, true, true);
         }
-
-        console.log(this.level);
     }
 
     spaceshipReset(){
         this.spaceship.disableBody(true,true)
     }
 
+    // function that activates gravity for user avatars gravity
     gravity(){
         this.spaceman.gravity();
     }
 
+    // set ammount of mobs to spawn 
     spawnMobs() {
         var amountOfMobs = this.level % 5;
         for (var i = 0; i < (amountOfMobs+4); i++) {
+            // add random timer to spawn mobs to allow variation
             this.time.addEvent({ delay: Math.floor(Math.random() * 5000), callback: this.spawnMob, callbackScope: this });  
         }
     }
 
     spawnMob(){
         this.mob = new Mob({scene:this, x:800, y:Math.floor(Math.random() * 500)}, this.level)
+        // set number as name to allow easy manipulation
         this.mob.name = this.mobGroup.getLength();
+        // set movement to match level
         this.mob.movement(this.level);
         this.mobGroup.add(this.mob);
     }
@@ -283,9 +299,11 @@ class Scene2 extends Phaser.Scene {
         }
     }
 
+    // function that maintains lives of avatar
     death(mob) {
         this.life -= 1;
 
+        //When lives are all used up, activate gameover scene or reset body with live less
         if(this.life == 0) {
             this.scene.start("gameOver");
         } else {
@@ -300,18 +318,23 @@ class Scene2 extends Phaser.Scene {
         this.bulletGroup.killAndHide(this.bulletGroup.getFirstAlive());
     }
 
+    // allows player to shoot in direction it is moving
     shoot(direction){
+        // set timer for interval between each bullet shot
         var timer = this.time.now;
-                console.log(timer +' ' +this.lastFired);
+                
         if(timer > this.lastFired) {
-                console.log("boot");
+                
             this.lastFired = timer + 200;
             this.bullet = new Bullet({scene:this, x:this.spaceman.x, y:this.spaceman.y}, direction);
-            this.bulletGroup.add(this.bullet);            
+            this.bulletGroup.add(this.bullet);   
+
+            // set timer after which bullet dissapears         
             this.time.addEvent({ delay: 2000, callback: this.disableBullet, callbackScope: this });  
         }
     }
 
+    // function that registers if mob is hit by bullet
     shot(bullet, mob){
         if(mob.disableBody(true, true) && bullet.disableBody(true, true)){
             this.score += 100;
